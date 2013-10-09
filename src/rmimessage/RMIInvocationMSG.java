@@ -5,8 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @author Shiwei The RMImessage class encapsulate an invocation including class
- *         name, method name and arguments
+ * @author Shiwei Dong
+ * 
+ *         The RMIInvocationMSG class encapsulate an invocation including class
+ *         name, method name and arguments. It is serializable and should be
+ *         able to send over network
  */
 public class RMIInvocationMSG extends RMImessage implements Serializable {
 	private String class_name;
@@ -24,7 +27,8 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 	}
 
 	/**
-	 * invoke Oct 9, 2013 
+	 * invoke Oct 9, 2013
+	 * 
 	 * Unmarshall the RMImessage and invoke the real method
 	 */
 	public void invoke(Object obj) {
@@ -33,7 +37,7 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 			Method method = c.getMethod(method_name, parameterTypes);
 			Class returntype = method.getReturnType();
 			Object returnobject = method.invoke(obj, arguments);
-			rtnmsg =  new RMIReturnMSG(returntype, returnobject);
+			rtnmsg = new RMIReturnMSG(returntype, returnobject);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,12 +58,13 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * Oct 9, 2013
+	 * 
 	 * This method returns a RMIreturnmessage object which encapsulate an
 	 * RMIreturnmessage
+	 * 
 	 * @return RMIreturnmessage
 	 */
 	public RMIReturnMSG getReturnMessage() {

@@ -1,14 +1,15 @@
-/**
- * 
- */
+
 package rmimessage;
 
 import java.io.Serializable;
 
 /**
- * @author air
- *
+ * @author Shiwei Dong
+ * 
+ *         This is an abstract class with not method, All RMI messages should
+ *         extend this class
+ * 
  */
-public abstract class RMImessage implements Serializable{
+public abstract class RMImessage implements Serializable {
 
 }

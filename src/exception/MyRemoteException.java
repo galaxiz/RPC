@@ -4,8 +4,10 @@
 package exception;
 
 /**
- * @author air
- *
+ * @author Shiwei Dong
+ * 
+ *         The RemoteException!
+ * 
  */
 public class MyRemoteException extends Exception {
 

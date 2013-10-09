@@ -19,8 +19,10 @@ import exception.MyRemoteException;
  *         can also cache connections
  */
 public abstract class CommunicationModel {
+	//Object stream for serialization
 	protected ObjectOutputStream out;
 	protected ObjectInputStream in;
+	
 	// Started determine if the communication if cached or not
 	protected boolean started;
 	// Server and Client socket
@@ -29,6 +31,10 @@ public abstract class CommunicationModel {
 	protected abstract void startSocket();
 
 	protected abstract void closeSocket();
+	
+	public boolean isConnected() {
+		return started;
+	}
 
 	public void startCM() {
 		try {
@@ -57,7 +63,7 @@ public abstract class CommunicationModel {
 		}
 	}
 
-	public void sendMessage(RMImessage message) {
+	public void sendMessage(RMImessage message) throws MyRemoteException {
 		try {
 			if (started == false) {
 				startCM();
@@ -65,11 +71,8 @@ public abstract class CommunicationModel {
 			out.writeObject(message);
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			endCM();
-			// System.out.println("Error: " + e);
-			// System.out.println("Make sure CM has started!");
-			// e.printStackTrace();
+			throw new MyRemoteException();
 		}
 	}
 
@@ -80,12 +83,9 @@ public abstract class CommunicationModel {
 			}
 			return (RMImessage) in.readObject();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			endCM();
 			throw new MyRemoteException();
-			// e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

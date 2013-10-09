@@ -10,8 +10,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /**
- * @author Shiwei Dong ClientCM handles client side communication issues.
+ * @author Shiwei Dong 
  * 
+ * ClientCM handles client side communication issues.
+ *  
  */
 public class ClientCM extends CommunicationModel {
 
@@ -32,7 +34,6 @@ public class ClientCM extends CommunicationModel {
 		try {
 			this.scSocket = new Socket(host, port);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

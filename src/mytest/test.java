@@ -104,22 +104,22 @@ public class test {
 		}
 	}
 
-	public static void main(String args[]){
-		ServerCM scm = new ServerCM(1234);
-		scm.startServer();
-		while (true) {
-			RMIInvocationMSG msg;
-			try {
-				msg = (RMIInvocationMSG) scm.receiveMessage();
-				test t = new test();
-				msg.invoke(t);
-				RMIReturnMSG rtnmsg = msg.getReturnMessage();
-				scm.sendMessage(rtnmsg);
-			} catch (MyRemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+//	public static void main(String args[]){
+//		ServerCM scm = new ServerCM(1234);
+//		scm.startServer();
+//		while (true) {
+//			RMIInvocationMSG msg;
+//			try {
+//				msg = (RMIInvocationMSG) scm.receiveMessage();
+//				test t = new test();
+//				msg.invoke(t);
+//				RMIReturnMSG rtnmsg = msg.getReturnMessage();
+//				scm.sendMessage(rtnmsg);
+//			} catch (MyRemoteException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 }

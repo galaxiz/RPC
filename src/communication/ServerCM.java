@@ -15,45 +15,15 @@ import java.net.Socket;
  */
 public class ServerCM extends CommunicationModel {
 
-	private ServerSocket serverSideSocket;
-	private int port;
-
-	public ServerCM(int port) {
-		this.port = port;
+	public ServerCM(Socket scSocket) {
+		this.scSocket = scSocket;
 		this.started = false;
 	}
-
-	
-	public void startServer() {
-		try {
-			serverSideSocket = new ServerSocket(port);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void endServer() {
-		try {
-			serverSideSocket.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
+		
 	/* (non-Javadoc)
 	 * @see communication.CommunicationModel#startSocket()
 	 */
-	protected void startSocket() {
-		try {
-			this.scSocket = serverSideSocket.accept();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	protected void startSocket() {}
 
 	/* (non-Javadoc)
 	 * @see communication.CommunicationModel#closeSocket()

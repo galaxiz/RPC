@@ -19,7 +19,7 @@ public class ServerCM extends CommunicationModel {
 		this.scSocket = scSocket;
 		this.started = false;
 	}
-		
+
 	/* (non-Javadoc)
 	 * @see communication.CommunicationModel#startSocket()
 	 */

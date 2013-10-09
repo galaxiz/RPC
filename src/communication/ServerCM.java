@@ -22,7 +22,6 @@ public class ServerCM extends CommunicationModel {
 		this.port = port;
 		this.started = false;
 	}
-
 	
 	public void startServer() {
 		try {

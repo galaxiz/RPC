@@ -19,11 +19,11 @@ import exception.MyRemoteException;
  */
 public class TestClient {
 
-	public static void test_compute(int port) {
+	public static void test_compute() {
 
 		try {
 			Registry registry = LocateRegistry.getRegistry("127.0.1.1", 1099);
-			Computation cs = (Computation) registry.lookup("app2.Computation");
+			Computation cs = (Computation) registry.lookup("app1.Computation");
 			System.out.println("Sum from 1 to 100 is " + cs.computeSum(1, 100));
 			while (true) {
 				int a = Integer.parseInt(System.console().readLine(
@@ -41,7 +41,7 @@ public class TestClient {
 
 	public static void main(String args[]) {
 
-		TestClient.test_compute(Integer.parseInt(args[0]));
+		TestClient.test_compute();
 
 	}
 }

@@ -83,6 +83,8 @@ public class RegistryServer {
 			MsgLib.SendMsg(client, msg);
 			
 			break;
+		default:
+			break;
 		}
 	}
 	

@@ -60,7 +60,7 @@ public class RMIserver {
 
 		RMIserver myserver = new RMIserver();
 
-		Registry registry = LocateRegistry.getRegistry("127.0.1.1", 1099);
+		Registry registry = LocateRegistry.getRegistry("localhost", 1099);
 
 		
 		while (true) {

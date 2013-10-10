@@ -23,17 +23,17 @@ public class LocateRegistry {
 		// open socket.
 		try {
 			Socket sk = new Socket(host, port);
-
+			
 			ObjectOutputStream out=new ObjectOutputStream(
 					sk.getOutputStream());
-			ObjectInputStream in=new ObjectInputStream(
-					sk.getInputStream());
-						
+									
 			RegistryMsg msg=new RegistryMsg(RegistryMsg.Type.GetReg,null,null);
 			
 			// ask.
 			out.writeObject(msg);
 
+			ObjectInputStream in=new ObjectInputStream(
+					sk.getInputStream());			
 			// gets answer.
 			msg=(RegistryMsg)in.readObject();
 			

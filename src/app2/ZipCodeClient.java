@@ -38,12 +38,12 @@ public class ZipCodeClient {
 //	String host = args[0];
 //	int port = Integer.parseInt(args[1]);
 //	String serviceName = args[2];
-	BufferedReader in = new BufferedReader(new FileReader(args[1]));
+	BufferedReader in = new BufferedReader(new FileReader(args[0]));
 
 	// locate the registry and get ror.
 	Registry registry = 
 	    LocateRegistry.getRegistry("127.0.1.1", 1099);
-	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("app2.ZipCodeServer");
+	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("app2.ZipCodeServerImpl");
 	
 	// get (create) the stub out of ror.
 //	ZipCodeServerImpl_stub a = new ZipCodeServerImpl_stub();

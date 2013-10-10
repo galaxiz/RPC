@@ -1,8 +1,9 @@
 package registry;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class RemoteObjectRef {
+public class RemoteObjectRef implements Serializable{
 	String ip;
 	int port;
 	int objKey;

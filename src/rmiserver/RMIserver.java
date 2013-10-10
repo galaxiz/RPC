@@ -60,29 +60,36 @@ public class RMIserver {
 
 		RMIserver myserver = new RMIserver();
 
-		Registry registry = LocateRegistry.getRegistry("127.0.1.1", 1099);
+		try {
+			Registry registry;
+			registry = LocateRegistry.getRegistry(Inet4Address.getLocalHost()
+					.getHostAddress(), 1099);
 
-		
-		while (true) {
-			System.out.print(myserver.getPrompt());
-			String cmdl = System.console().readLine();
-			String cmdargs[] = cmdl.split(" ");
-			if (cmdargs[0].equals("register")) {
-				String class_name = cmdargs[1];
-				String class_stub_name = cmdargs[1] + "_stub";
-				// start a new thread to handle this particular server object
-				Runnable job = new Server_handler( registry, class_name,
-						class_stub_name);
-				Thread t = new Thread(job);
-				t.start();
-			} else if (cmdargs[0].equals("exit")) {
-				System.out.println("Server Exisiting...");
-				break;
-			} else {
-				myserver.printUsage();
+			while (true) {
+				System.out.print(myserver.getPrompt());
+				String cmdl = System.console().readLine();
+				String cmdargs[] = cmdl.split(" ");
+				if (cmdargs[0].equals("register")) {
+					String class_name = cmdargs[1];
+					String class_stub_name = cmdargs[1] + "_stub";
+					// start a new thread to handle this particular server
+					// object
+					Runnable job = new Server_handler(registry, class_name,
+							class_stub_name);
+					Thread t = new Thread(job);
+					t.start();
+				} else if (cmdargs[0].equals("exit")) {
+					System.out.println("Server Exisiting...");
+					break;
+				} else {
+					myserver.printUsage();
+				}
 			}
-		}
 
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

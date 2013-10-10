@@ -6,6 +6,7 @@ package communication;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
 import rmimessage.RMImessage;
@@ -18,7 +19,7 @@ import exception.MyRemoteException;
  *         for setting up connection, send as well as receive RMImessages. CM
  *         can also cache connections
  */
-public abstract class CommunicationModel {
+public abstract class CommunicationModel implements Serializable {
 	//Object stream for serialization
 	protected ObjectOutputStream out;
 	protected ObjectInputStream in;

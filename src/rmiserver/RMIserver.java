@@ -21,14 +21,9 @@ public class RMIserver {
 	private String prompt = "Server";
 	private String hostServerIP;
 
-	public RMIserver() {
-		try {
-			hostServerIP = Inet4Address.getLocalHost().getHostAddress();
+	public RMIserver(String ip) {
+			hostServerIP = ip;
 			prompt = prompt + "@" + hostServerIP + ">";
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void printUsage() {
@@ -58,37 +53,50 @@ public class RMIserver {
 	 */
 	public static void main(String[] args) {
 
-		RMIserver myserver = new RMIserver();
-
+		String registryHost;
+		int registryPort;
+		String localIP = "127.0.1.1";
 		try {
-			Registry registry;
-			registry = LocateRegistry.getRegistry(Inet4Address.getLocalHost()
-					.getHostAddress(), 1099);
-
-			while (true) {
-				System.out.print(myserver.getPrompt());
-				String cmdl = System.console().readLine();
-				String cmdargs[] = cmdl.split(" ");
-				if (cmdargs[0].equals("register")) {
-					String class_name = cmdargs[1];
-					String class_stub_name = cmdargs[1] + "_stub";
-					// start a new thread to handle this particular server
-					// object
-					Runnable job = new Server_handler(registry, class_name,
-							class_stub_name);
-					Thread t = new Thread(job);
-					t.start();
-				} else if (cmdargs[0].equals("exit")) {
-					System.out.println("Server Exisiting...");
-					break;
-				} else {
-					myserver.printUsage();
-				}
-			}
-
+			localIP = Inet4Address.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if(args.length == 2) {
+			registryHost = args[0];
+			registryPort = Integer.parseInt(args[1]);
+		} else if (args.length == 3) {
+			registryHost = args[0];
+			registryPort = Integer.parseInt(args[1]);
+			localIP = args[2];
+		} else {
+			System.out.print("Usage: java RMIserver <Registry host> <Registry port> [ServerIP]");
+			return;			
+		}
+		RMIserver myserver = new RMIserver(localIP);
+
+		Registry registry;
+		registry = LocateRegistry.getRegistry(registryHost, registryPort);
+
+		while (true) {
+			System.out.print(myserver.getPrompt());
+			String cmdl = System.console().readLine();
+			String cmdargs[] = cmdl.split(" ");
+			if (cmdargs[0].equals("register")) {
+				String class_name = cmdargs[1];
+				String class_stub_name = cmdargs[1] + "_stub";
+				// start a new thread to handle this particular server
+				// object
+				Runnable job = new Server_handler(registry, class_name,
+						class_stub_name, localIP);
+				Thread t = new Thread(job);
+				t.start();
+			} else if (cmdargs[0].equals("exit")) {
+				System.out.println("Server Exisiting...");
+				break;
+			} else {
+				myserver.printUsage();
+			}
 		}
 	}
 

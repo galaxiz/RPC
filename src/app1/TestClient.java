@@ -19,13 +19,28 @@ import exception.MyRemoteException;
  */
 public class TestClient {
 
-	public static void test_compute() {
+	public static void test_compute(String[] args) {
 
 		try {
-			Registry registry = LocateRegistry.getRegistry("127.0.1.1", 1099);
-			Computation cs = (Computation) registry.lookup("app1.Computation");
-			System.out.println("Sum from 1 to 100 is " + cs.computeSum(1, 100));
+			String hostIP = null;
+			int hostPort = 0;
+			 
+			if(args.length != 2) {
+				System.out.println("Usage: TestClient <RegistryIP> <RegistryPort>");
+				return;
+			}
+			
+			hostIP = args[0];
+			hostPort = Integer.parseInt(args[1]);
+			
+			Registry registry = LocateRegistry.getRegistry(hostIP, hostPort);
+			Compute cs = (Compute) registry.lookup("app1.Computation");
 			while (true) {
+				int i = Integer.parseInt(System.console().readLine(
+						"Enter an int i\n"));
+				int j = Integer.parseInt(System.console().readLine(
+						"Enter an int j > i\n"));
+				System.out.println("Sum from "+i+" to "+j+" is " + cs.computeSum(i, j));
 				int a = Integer.parseInt(System.console().readLine(
 						"Enter a int to compute factorial\n"));
 				System.out.println(cs.computeFactorial(a));
@@ -41,7 +56,7 @@ public class TestClient {
 
 	public static void main(String args[]) {
 
-		TestClient.test_compute();
+		TestClient.test_compute(args);
 
 	}
 }

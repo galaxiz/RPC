@@ -15,9 +15,8 @@ public class LocateRegistry {
 					sk.getOutputStream());
 			ObjectInputStream in=new ObjectInputStream(
 					sk.getInputStream());
-			
-			
-			RegistryMsg msg=new RegistryMsg();
+						
+			RegistryMsg msg=new RegistryMsg(RegistryMsg.Type.GetReg,null,null);
 			
 			// ask.
 			out.writeObject(msg);
@@ -28,7 +27,7 @@ public class LocateRegistry {
 			/*
 			 * check response
 			 */
-			if (true) {
+			if (msg.type==RegistryMsg.Type.OK) {
 				return new Registry(host, port);
 			} else {
 				System.out.println("somebody is there but not a  registry!");

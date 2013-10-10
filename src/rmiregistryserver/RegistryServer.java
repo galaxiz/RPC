@@ -2,6 +2,9 @@ package rmiregistryserver;
 
 import java.net.*;
 
+import registry.MsgLib;
+import registry.RemoteObjectRef;
+import remoteinterface.Remote;
 import rmimessage.RegistryMsg;
 import rmimessage.RMImessage;
 import communication.*;
@@ -45,7 +48,7 @@ public class RegistryServer {
 		/*
 		 * get parsed message
 		 */
-		RegistryMsg msg=null;
+		RegistryMsg msg=MsgLib.RecvMsg(client);
 		
 		/*
 		 * handle
@@ -56,10 +59,29 @@ public class RegistryServer {
 	void msgHandler(Socket client,RegistryMsg msg){
 		switch(msg.type){
 		case GetReg:
+			msg=new RegistryMsg(RegistryMsg.Type.OK,null,null);
+			MsgLib.SendMsg(client, msg);
 			break;
+			
 		case GetStub:
+			RemoteObjectRef rof=stubmanager.getStub(msg.info);
+			msg=new RegistryMsg(RegistryMsg.Type.OK,null,rof);
+			
+			MsgLib.SendMsg(client, msg);
 			break;
+			
 		case PutStub:
+			String name=msg.info;
+			Remote stub=(Remote)msg.object;
+			
+			//TODO
+			RemoteObjectRef rof1=new RemoteObjectRef(null,stub);
+			
+			stubmanager.rebindStub(name, rof1);
+			
+			msg=new RegistryMsg(RegistryMsg.Type.OK,null,null);			
+			MsgLib.SendMsg(client, msg);
+			
 			break;
 		}
 	}

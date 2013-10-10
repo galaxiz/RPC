@@ -1,9 +1,9 @@
 /**
  * 
  */
-package app1;
+package testfactorial;
 
-import exception.MyRemoteException;
+import exception.RemoteException;
 
 /**
  * @author Shiwei Dong
@@ -25,7 +25,7 @@ public class Computation implements Compute {
 	 * @see app1.Compute#computeSum(int, int)
 	 */
 	@Override
-	public int computeSum(int i, int j) throws MyRemoteException {
+	public int computeSum(int i, int j) throws RemoteException {
 		if (i > j)
 			return -1;
 		else {

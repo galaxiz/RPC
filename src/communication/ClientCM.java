@@ -19,6 +19,10 @@ public class ClientCM extends CommunicationModel {
 
 	private String host;
 	private int port;
+	
+	public void setHost(String host){
+		this.host=host;
+	}
 
 	public ClientCM(String host, int port) {
 		this.host = host;

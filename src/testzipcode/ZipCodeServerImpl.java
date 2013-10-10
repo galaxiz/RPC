@@ -1,7 +1,7 @@
 /**
  * 
  */
-package app2;
+package testzipcode;
 
 //in implementation, you do not have to extend this as in Java RMI. 
 //in your design, however, you can do so.

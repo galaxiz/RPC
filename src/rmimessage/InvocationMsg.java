@@ -11,14 +11,14 @@ import java.lang.reflect.Method;
  *         name, method name and arguments. It is serializable and should be
  *         able to send over network
  */
-public class RMIInvocationMSG extends RMImessage implements Serializable {
+public class InvocationMsg extends Message implements Serializable {
 	private String class_name;
 	private String method_name;
 	private Class[] parameterTypes;
 	private Object[] arguments;
-	private RMIReturnMSG rtnmsg = null;
+	private ReturnMSG rtnmsg = null;
 
-	public RMIInvocationMSG(String cn, String method, Class[] paraTypes,
+	public InvocationMsg(String cn, String method, Class[] paraTypes,
 			Object[] objects) {
 		class_name = cn;
 		method_name = method;
@@ -37,7 +37,7 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 			Method method = c.getMethod(method_name, parameterTypes);
 			Class returntype = method.getReturnType();
 			Object returnobject = method.invoke(obj, arguments);
-			rtnmsg = new RMIReturnMSG(returntype, returnobject);
+			rtnmsg = new ReturnMSG(returntype, returnobject);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,7 +67,7 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 	 * 
 	 * @return RMIreturnmessage
 	 */
-	public RMIReturnMSG getReturnMessage() {
+	public ReturnMSG getReturnMessage() {
 		return rtnmsg;
 	}
 }

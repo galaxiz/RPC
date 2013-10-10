@@ -9,11 +9,11 @@ import java.io.Serializable;
  *         RMIreturnmessage is a message type which encapsulate the return
  *         value, return type of a RMI call
  */
-public class RMIReturnMSG extends RMImessage implements Serializable {
+public class ReturnMSG extends Message implements Serializable {
 	private Class returnType;
 	private Object returnObject;
 
-	public RMIReturnMSG(Class returnType, Object returnObject) {
+	public ReturnMSG(Class returnType, Object returnObject) {
 		this.returnType = returnType;
 		this.returnObject = returnObject;
 	}

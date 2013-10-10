@@ -1,17 +1,17 @@
 /**
  * 
  */
-package app1;
+package testfactorial;
 
 import java.io.IOException;
 
-import app2.ZipCodeServer;
 import registry.LocateRegistry;
 import registry.Registry;
-import rmimessage.RMIInvocationMSG;
-import rmimessage.RMIReturnMSG;
+import rmimessage.InvocationMsg;
+import rmimessage.ReturnMSG;
+import testzipcode.ZipCodeServer;
 import communication.ClientCM;
-import exception.MyRemoteException;
+import exception.RemoteException;
 
 /**
  * @author air
@@ -34,7 +34,7 @@ public class TestClient {
 			hostPort = Integer.parseInt(args[1]);
 			
 			Registry registry = LocateRegistry.getRegistry(hostIP, hostPort);
-			Compute cs = (Compute) registry.lookup("app1.Computation");
+			Compute cs = (Compute) registry.lookup("testfactorial.Computation");
 			while (true) {
 				int i = Integer.parseInt(System.console().readLine(
 						"Enter an int i\n"));
@@ -45,7 +45,7 @@ public class TestClient {
 						"Enter a int to compute factorial\n"));
 				System.out.println(cs.computeFactorial(a));
 			}
-		} catch (MyRemoteException e1) {
+		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e) {
@@ -55,8 +55,6 @@ public class TestClient {
 	}
 
 	public static void main(String args[]) {
-
 		TestClient.test_compute(args);
-
 	}
 }

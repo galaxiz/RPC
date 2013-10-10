@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 
 import remoteinterface.Remote;
+import remoteinterface.Remote_Stub;
 import rmimessage.RegistryMsg;
 
 public class Registry {
@@ -43,13 +44,10 @@ public class Registry {
 
 			rof=(RemoteObjectRef)msg.object;
 			
-			URL url=rof.url;
-						
-			URLClassLoader cl=new URLClassLoader(new URL[]{url});			
-
 			/*
 			 * need more consideration
 			 */			
+			rof.setServerHost(host);
 			
 			ro=(Remote)rof.stub();
 		} else {

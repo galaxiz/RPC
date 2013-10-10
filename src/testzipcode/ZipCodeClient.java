@@ -1,7 +1,7 @@
 /**
  * 
  */
-package app2;
+package testzipcode;
 
 //a client for ZipCodeServer.
 //it uses ZipCodeServer as an interface, and test
@@ -23,7 +23,7 @@ import registry.LocateRegistry;
 import registry.Registry;
 import registry.RemoteObjectRef;
 import remoteinterface.Remote;
-import exception.MyRemoteException;
+import exception.RemoteException;
 
 public class ZipCodeClient { 
 
@@ -54,7 +54,7 @@ public class ZipCodeClient {
 	// locate the registry and get ror.
 	Registry registry = 
 	    LocateRegistry.getRegistry(hostIP, hostPort);
-	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("app2.ZipCodeServerImpl");
+	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("testzipcode.ZipCodeServerImpl");
 	
 	// get (create) the stub out of ror.
 //	ZipCodeServerImpl_stub a = new ZipCodeServerImpl_stub();
@@ -92,7 +92,7 @@ public class ZipCodeClient {
 	// test the initialise.
 	try {
 		zcs.initialise(l);
-	} catch (MyRemoteException e) {
+	} catch (RemoteException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
@@ -110,7 +110,7 @@ public class ZipCodeClient {
 			System.out.println("city: "+temp.city+", "+
 					"code: "+res);
 			temp=temp.next;
-		} catch (MyRemoteException e) {
+		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -121,7 +121,7 @@ public class ZipCodeClient {
 	// here is a test.
 	try {
 		temp = zcs.findAll();
-	} catch (MyRemoteException e) {
+	} catch (RemoteException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
@@ -138,7 +138,7 @@ public class ZipCodeClient {
 	// here is a test.
 	try {
 		zcs.printAll();
-	} catch (MyRemoteException e) {
+	} catch (RemoteException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}

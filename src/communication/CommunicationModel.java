@@ -9,8 +9,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
-import rmimessage.RMImessage;
-import exception.MyRemoteException;
+import rmimessage.Message;
+import exception.RemoteException;
 
 /**
  * @author Shiwei Dong
@@ -64,7 +64,7 @@ public abstract class CommunicationModel implements Serializable {
 		}
 	}
 
-	public void sendMessage(RMImessage message) throws MyRemoteException {
+	public void sendMessage(Message message) throws RemoteException {
 		try {
 			if (started == false) {
 				startCM();
@@ -73,19 +73,19 @@ public abstract class CommunicationModel implements Serializable {
 			out.flush();
 		} catch (IOException e) {
 			endCM();
-			throw new MyRemoteException();
+			throw new RemoteException();
 		}
 	}
 
-	public RMImessage receiveMessage() throws MyRemoteException {
+	public Message receiveMessage() throws RemoteException {
 		try {
 			if (started == false) {
 				startCM();
 			}
-			return (RMImessage) in.readObject();
+			return (Message) in.readObject();
 		} catch (IOException e) {
 			endCM();
-			throw new MyRemoteException();
+			throw new RemoteException();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

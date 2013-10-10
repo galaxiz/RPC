@@ -3,10 +3,10 @@ package rmiserver;
 
 import java.net.Socket;
 
-import rmimessage.RMIInvocationMSG;
-import rmimessage.RMIReturnMSG;
+import rmimessage.InvocationMsg;
+import rmimessage.ReturnMSG;
 import communication.ServerCM;
-import exception.MyRemoteException;
+import exception.RemoteException;
 
 /**
  * @author Shiwei Dong
@@ -38,11 +38,11 @@ public class ClientHandler implements Runnable {
 		ServerCM scm = new ServerCM(scSocket);
 		do {
 			try {
-				RMIInvocationMSG in = (RMIInvocationMSG) scm.receiveMessage();
+				InvocationMsg in = (InvocationMsg) scm.receiveMessage();
 				in.invoke(serverObj);
-				RMIReturnMSG rtnmsg = in.getReturnMessage();
+				ReturnMSG rtnmsg = in.getReturnMessage();
 				scm.sendMessage(rtnmsg);
-			} catch (MyRemoteException e) {
+			} catch (RemoteException e) {
 				System.out.println("scSocket lost! Connection is Over!");
 				break;
 			}

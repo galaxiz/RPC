@@ -1,5 +1,7 @@
 package remoteinterface;
 
-public interface Remote {
+import java.io.*;
+
+public interface Remote extends Serializable {
 
 }

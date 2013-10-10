@@ -4,6 +4,12 @@ import java.util.*;
 
 import registry.RemoteObjectRef;
 
+/**
+ * 
+ * @author xi
+ * 
+ * Manage RemoteObjectRefs
+ */
 public class StubManager {
 	Map<String,RemoteObjectRef> mg=null;
 	

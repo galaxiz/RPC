@@ -15,14 +15,14 @@ import remoteinterface.Remote_Stub;
  *         register.
  * 
  */
-public class Server_handler implements Runnable {
+public class ServerHandler implements Runnable {
 
 	String serverClassName;
 	String serverClassStubName;
 	Registry registry;
 	String hostIP;
 
-	public Server_handler(Registry registry, String classname, String stubname, String hostIP){
+	public ServerHandler(Registry registry, String classname, String stubname, String hostIP){
 		this.registry = registry;
 		this.serverClassName = classname;
 		this.serverClassStubName = stubname;

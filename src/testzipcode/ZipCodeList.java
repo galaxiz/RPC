@@ -1,7 +1,7 @@
 /**
  * 
  */
-package app2;
+package testzipcode;
 
 import java.io.Serializable;
 

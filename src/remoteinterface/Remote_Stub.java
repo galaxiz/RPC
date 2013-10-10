@@ -17,5 +17,9 @@ public class Remote_Stub implements Serializable, Remote {
 	public void setCM(String host, int port) {
 		clientCM = new ClientCM(host, port);
 	}
+	
+	public void setServerHost(String host){
+		clientCM.setHost(host);
+	}
 }
 

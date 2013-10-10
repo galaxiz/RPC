@@ -5,6 +5,12 @@ import java.net.Socket;
 
 import rmimessage.RegistryMsg;
 
+/**
+ * 
+ * @author xi
+ *
+ * Simple helper functions
+ */
 public class MsgLib {
 	public static boolean SendMsg(Socket socket,RegistryMsg msg){
 		try{

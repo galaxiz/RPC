@@ -1,12 +1,12 @@
 /**
  * 
  */
-package app2;
+package testzipcode;
 
-import exception.MyRemoteException;
+import exception.RemoteException;
 import remoteinterface.Remote_Stub;
-import rmimessage.RMIInvocationMSG;
-import rmimessage.RMIReturnMSG;
+import rmimessage.InvocationMsg;
+import rmimessage.ReturnMSG;
 
 /**
  * @author air
@@ -23,8 +23,8 @@ public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer
 	 * @see app2.ZipCodeServer#initialise(app2.ZipCodeList)
 	 */
 	@Override
-	public void initialise(ZipCodeList newlist) throws MyRemoteException {
-		RMIInvocationMSG msg = new RMIInvocationMSG("app2.ZipCodeServerImpl",
+	public void initialise(ZipCodeList newlist) throws RemoteException {
+		InvocationMsg msg = new InvocationMsg("testzipcode.ZipCodeServerImpl",
 				"initialise", new Class[] {ZipCodeList.class},
 				new Object[] {newlist});
 		clientCM.sendMessage(msg);
@@ -35,12 +35,12 @@ public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer
 	 * @see app2.ZipCodeServer#find(java.lang.String)
 	 */
 	@Override
-	public String find(String city) throws MyRemoteException {
-		RMIInvocationMSG msg = new RMIInvocationMSG("app2.ZipCodeServerImpl",
+	public String find(String city) throws RemoteException {
+		InvocationMsg msg = new InvocationMsg("testzipcode.ZipCodeServerImpl",
 				"find", new Class[] {String.class},
 				new Object[] {city});
 		clientCM.sendMessage(msg);
-		RMIReturnMSG rtmsg = (RMIReturnMSG) clientCM.receiveMessage();
+		ReturnMSG rtmsg = (ReturnMSG) clientCM.receiveMessage();
 		return (String)rtmsg.getReturnObject();
 	}
 
@@ -48,12 +48,12 @@ public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer
 	 * @see app2.ZipCodeServer#findAll()
 	 */
 	@Override
-	public ZipCodeList findAll() throws MyRemoteException {
-		RMIInvocationMSG msg = new RMIInvocationMSG("app2.ZipCodeServerImpl",
+	public ZipCodeList findAll() throws RemoteException {
+		InvocationMsg msg = new InvocationMsg("testzipcode.ZipCodeServerImpl",
 				"findAll", new Class[] { },
 				new Object[] { });
 		clientCM.sendMessage(msg);
-		RMIReturnMSG rtmsg = (RMIReturnMSG) clientCM.receiveMessage();
+		ReturnMSG rtmsg = (ReturnMSG) clientCM.receiveMessage();
 		return (ZipCodeList)rtmsg.getReturnObject();
 	}
 
@@ -61,8 +61,8 @@ public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer
 	 * @see app2.ZipCodeServer#printAll()
 	 */
 	@Override
-	public void printAll() throws MyRemoteException {
-		RMIInvocationMSG msg = new RMIInvocationMSG("app2.ZipCodeServerImpl",
+	public void printAll() throws RemoteException {
+		InvocationMsg msg = new InvocationMsg("testzipcode.ZipCodeServerImpl",
 				"printAll", new Class[] {},
 				new Object[] { });
 		clientCM.sendMessage(msg);

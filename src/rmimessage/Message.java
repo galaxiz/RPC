@@ -10,6 +10,6 @@ import java.io.Serializable;
  *         extend this class
  * 
  */
-public abstract class RMImessage implements Serializable {
+public abstract class Message implements Serializable {
 
 }

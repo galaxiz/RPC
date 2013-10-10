@@ -9,6 +9,8 @@ import rmimessage.RegistryMsg;
  * 
  * @author xi
  *
+ * Used by both object server and client to contact registry server,
+ * register stubs, and lookup stubs.
  */
 public class LocateRegistry {
 	public static Registry getRegistry() {
@@ -21,7 +23,7 @@ public class LocateRegistry {
 	
 	public static Registry getRegistry(String host, int port) {
 		// open socket.
-		try {
+		try {			
 			Socket sk = new Socket(host, port);
 			
 			ObjectOutputStream out=new ObjectOutputStream(
@@ -42,12 +44,12 @@ public class LocateRegistry {
 			 */
 			if (msg.type==RegistryMsg.Type.OK) {
 				return new Registry(host, port);
-			} else {
-				System.out.println("somebody is there but not a  registry!");
+			} else {				
 				return null;
 			}
 		} catch (Exception e) {
-			System.out.println("nobody is there!" + e);
+			System.out.println("No registry server found.");
+			e.printStackTrace();
 			return null;
 		}
 	}

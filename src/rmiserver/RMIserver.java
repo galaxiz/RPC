@@ -87,7 +87,7 @@ public class RMIserver {
 				String class_stub_name = cmdargs[1] + "_stub";
 				// start a new thread to handle this particular server
 				// object
-				Runnable job = new Server_handler(registry, class_name,
+				Runnable job = new ServerHandler(registry, class_name,
 						class_stub_name, localIP);
 				Thread t = new Thread(job);
 				t.start();

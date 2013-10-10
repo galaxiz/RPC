@@ -14,6 +14,11 @@ import rmimessage.RMIReturnMSG;
  */
 public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1068237409475213952L;
+
 	/* (non-Javadoc)
 	 * @see app2.ZipCodeServer#initialise(app2.ZipCodeList)
 	 */
@@ -21,7 +26,7 @@ public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer
 	public void initialise(ZipCodeList newlist) throws MyRemoteException {
 		RMIInvocationMSG msg = new RMIInvocationMSG("app2.ZipCodeServerImpl",
 				"initialise", new Class[] {ZipCodeList.class},
-				new Object[] { newlist});
+				new Object[] {newlist});
 		clientCM.sendMessage(msg);
 		clientCM.receiveMessage();
 	}
@@ -32,7 +37,7 @@ public class ZipCodeServerImpl_stub extends Remote_Stub implements ZipCodeServer
 	@Override
 	public String find(String city) throws MyRemoteException {
 		RMIInvocationMSG msg = new RMIInvocationMSG("app2.ZipCodeServerImpl",
-				"find", new Class[] { String.class},
+				"find", new Class[] {String.class},
 				new Object[] {city});
 		clientCM.sendMessage(msg);
 		RMIReturnMSG rtmsg = (RMIReturnMSG) clientCM.receiveMessage();

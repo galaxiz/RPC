@@ -11,7 +11,7 @@ import communication.ClientCM;
  * @author air
  *
  */
-public class Remote_Stub implements Serializable {
+public class Remote_Stub implements Serializable, Remote {
 	protected ClientCM clientCM;
 	
 	public void setCM(String host, int port) {

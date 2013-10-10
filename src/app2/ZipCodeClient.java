@@ -19,6 +19,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import registry.LocateRegistry;
+import registry.Registry;
+import registry.RemoteObjectRef;
+import remoteinterface.Remote;
 import exception.MyRemoteException;
 
 public class ZipCodeClient { 
@@ -36,16 +40,15 @@ public class ZipCodeClient {
 //	String serviceName = args[2];
 	BufferedReader in = new BufferedReader(new FileReader(args[1]));
 
-//	// locate the registry and get ror.
-//	SimpleRegistry sr = 
-//	    LocateSimpleRegistry.getRegistry(host, port);
-//	RemoteObjectRef ror = sr.lookup(serviceName);
-
+	// locate the registry and get ror.
+	Registry registry = 
+	    LocateRegistry.getRegistry("127.0.1.1", 1099);
+	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("app2.ZipCodeServer");
+	
 	// get (create) the stub out of ror.
-//	ZipCodeServer zcs = (ZipCodeServer) ror.localise();
-	ZipCodeServerImpl_stub a = new ZipCodeServerImpl_stub();
-	a.setCM("127.0.1.1", Integer.parseInt(args[0]));
-	ZipCodeServer zcs = (ZipCodeServer) a;
+//	ZipCodeServerImpl_stub a = new ZipCodeServerImpl_stub();
+	//a.setCM("127.0.1.1", Integer.parseInt(args[0]));
+	//ZipCodeServer zcs = (ZipCodeServer) a;
 
 	// reads the data and make a "local" zip code list.
 	// later this is sent to the server.

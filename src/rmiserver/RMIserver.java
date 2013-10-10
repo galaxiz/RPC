@@ -6,6 +6,9 @@ package rmiserver;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
+import registry.LocateRegistry;
+import registry.Registry;
+
 /**
  * @author Shiwei Dong
  * 
@@ -57,9 +60,9 @@ public class RMIserver {
 
 		RMIserver myserver = new RMIserver();
 
-		// Registry registry = LocateRegistry.getRegistry(registryHost,
-		// registryPort);
+		Registry registry = LocateRegistry.getRegistry("127.0.1.1", 1099);
 
+		
 		while (true) {
 			System.out.print(myserver.getPrompt());
 			String cmdl = System.console().readLine();
@@ -68,7 +71,7 @@ public class RMIserver {
 				String class_name = cmdargs[1];
 				String class_stub_name = cmdargs[1] + "_stub";
 				// start a new thread to handle this particular server object
-				Runnable job = new Server_handler(/* registry, */class_name,
+				Runnable job = new Server_handler( registry, class_name,
 						class_stub_name);
 				Thread t = new Thread(job);
 				t.start();

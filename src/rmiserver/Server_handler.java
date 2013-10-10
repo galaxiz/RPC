@@ -2,13 +2,12 @@
 package rmiserver;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.server.RemoteStub;
 
-import rmimessage.RMIInvocationMSG;
-import rmimessage.RMIReturnMSG;
-import communication.ServerCM;
+import registry.Registry;
+import remoteinterface.Remote_Stub;
 
 /**
  * @author Shiwei Dong
@@ -21,9 +20,11 @@ public class Server_handler implements Runnable {
 
 	String serverClassName;
 	String serverClassStubName;
+	Registry registry;
 	
 	
-	public Server_handler(String classname, String stubname){
+	public Server_handler(Registry registry, String classname, String stubname){
+		this.registry = registry;
 		this.serverClassName = classname;
 		this.serverClassStubName = stubname;
 	}
@@ -37,18 +38,19 @@ public class Server_handler implements Runnable {
 		System.out.println("Haha, you start a new Server_handler");
 		
 		try {
-			//ServerCM scm = new ServerCM(9032);
-			//scm.startServer();
-			//int port = scm.getscSocketPort();
 			ServerSocket ss = new ServerSocket(0);
-			System.out.println(ss.getLocalPort());
-			//Class stub = Class.forName(serverClassStubName);
-			//RemoteStub rstub = (RemoteStub)stub.newInstance();
+			int port = ss.getLocalPort();
+			System.out.println("The port is "+port);
+			Class stub = Class.forName(serverClassStubName);
+			Remote_Stub rstub = (Remote_Stub)stub.newInstance();
+			rstub.setCM(Inet4Address.getLocalHost().getHostAddress(), port);
+			
+			//Initialize remote server object
 			Class sobj = Class.forName(serverClassName);
 			Object serverObj = sobj.newInstance();
-			//rstub.setCM(host, port);
-			//Initialize remote server object
+			
 			//register stub to registry
+			registry.rebind(serverClassName, rstub);
 			
 			//start service
 			while(true) {

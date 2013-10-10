@@ -16,14 +16,14 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 	private String method_name;
 	private Class[] parameterTypes;
 	private Object[] arguments;
-	private RMIReturnMSG rtnmsg;
+	private RMIReturnMSG rtnmsg = null;
 
 	public RMIInvocationMSG(String cn, String method, Class[] paraTypes,
 			Object[] objects) {
 		class_name = cn;
 		method_name = method;
 		arguments = objects;
-		parameterTypes = paraTypes = null;
+		parameterTypes = paraTypes;
 	}
 
 	/**

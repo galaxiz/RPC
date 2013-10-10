@@ -3,9 +3,8 @@
  */
 package rmiserver;
 
-import java.net.InetAddress;
+import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.rmi.registry.Registry;
 
 /**
  * @author Shiwei Dong
@@ -21,7 +20,7 @@ public class RMIserver {
 
 	public RMIserver() {
 		try {
-			hostServerIP = InetAddress.getByName(null).getHostAddress();
+			hostServerIP = Inet4Address.getLocalHost().getHostAddress();
 			prompt = prompt + "@" + hostServerIP + ">";
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

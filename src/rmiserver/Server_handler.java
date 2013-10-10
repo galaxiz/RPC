@@ -40,7 +40,8 @@ public class Server_handler implements Runnable {
 			//ServerCM scm = new ServerCM(9032);
 			//scm.startServer();
 			//int port = scm.getscSocketPort();
-			ServerSocket ss = new ServerSocket(9032);
+			ServerSocket ss = new ServerSocket(0);
+			System.out.println(ss.getLocalPort());
 			//Class stub = Class.forName(serverClassStubName);
 			//RemoteStub rstub = (RemoteStub)stub.newInstance();
 			Class sobj = Class.forName(serverClassName);

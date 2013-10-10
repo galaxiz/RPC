@@ -3,17 +3,33 @@
  */
 package app1;
 
-/**
- * @author air
- *
- */
-public class Computation {
+import exception.MyRemoteException;
 
-	public static int computeFactorial(int i) {
-		if(i <= 0)
+/**
+ * @author Shiwei Dong
+ * 
+ */
+public class Computation implements Compute {
+
+	public int computeFactorial(int i) {
+		if (i <= 0)
 			return 0;
-		if(i == 1)
+		if (i == 1)
 			return i;
-		return Computation.computeFactorial(i-1)*i;
+		return computeFactorial(i - 1) * i;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see app1.Compute#computeSum(int, int)
+	 */
+	@Override
+	public int computeSum(int i, int j) throws MyRemoteException {
+		if (i > j)
+			return -1;
+		else {
+			return (i+j)*(j-i+1)/2;
+		}
 	}
 }

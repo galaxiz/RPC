@@ -23,7 +23,7 @@ public class RMIInvocationMSG extends RMImessage implements Serializable {
 		class_name = cn;
 		method_name = method;
 		arguments = objects;
-		parameterTypes = paraTypes;
+		parameterTypes = paraTypes = null;
 	}
 
 	/**

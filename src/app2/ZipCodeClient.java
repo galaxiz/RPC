@@ -43,7 +43,7 @@ public class ZipCodeClient {
 	// locate the registry and get ror.
 	Registry registry = 
 	    LocateRegistry.getRegistry("127.0.1.1", 1099);
-	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("app2.ZipCodeServer");
+	ZipCodeServer zcs = (ZipCodeServer)registry.lookup("app2.ZipCodeServerImpl");
 	
 	// get (create) the stub out of ror.
 //	ZipCodeServerImpl_stub a = new ZipCodeServerImpl_stub();

@@ -1,4 +1,4 @@
-package rmiregistryserver;
+package registryserver;
 
 import java.net.*;
 

@@ -5,7 +5,20 @@ import java.net.*;
 
 import rmimessage.RegistryMsg;
 
+/**
+ * 
+ * @author xi
+ *
+ */
 public class LocateRegistry {
+	public static Registry getRegistry() {
+		return getRegistry("localhost",1099);
+	}
+	
+	public static Registry getRegistry(String host) {
+		return getRegistry(host,1099);
+	}
+	
 	public static Registry getRegistry(String host, int port) {
 		// open socket.
 		try {

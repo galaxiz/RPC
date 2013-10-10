@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 
 import remoteinterface.Remote;
-import rmimessage.RMIRegistryMsg;
+import rmimessage.RegistryMsg;
 
 public class Registry {
 	String host;
@@ -26,7 +26,7 @@ public class Registry {
 		System.out.println("socket made.");
 
 		// get TCP streams and wrap them.
-		RMIRegistryMsg msg=null;
+		RegistryMsg msg=null;
 		/*
 		 * set service name
 		 */
@@ -83,24 +83,20 @@ public class Registry {
 			throws IOException {
 		// open socket. same as before.
 		Socket soc = new Socket(host, port);
-
-		// get TCP streams and wrap them.
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				soc.getInputStream()));
-		PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-
+		
+		
 		// it is a rebind request, with a service name and ROR.
-		out.println("rebind");
-		out.println(serviceName);
-		out.println(ror.IP_adr);
-		out.println(ror.Port);
-		out.println(ror.Obj_Key);
-		out.println(ror.Remote_Interface_Name);
-
-		// it also gets an ack, but this is not used.
-		String ack = in.readLine();
-
-		// close the socket.
-		soc.close();
+//		out.println("rebind");
+//		out.println(serviceName);
+//		out.println(ror.IP_adr);
+//		out.println(ror.Port);
+//		out.println(ror.Obj_Key);
+//		out.println(ror.Remote_Interface_Name);
+//
+//		// it also gets an ack, but this is not used.
+//		String ack = in.readLine();
+//
+//		// close the socket.
+//		soc.close();
 	}
 }

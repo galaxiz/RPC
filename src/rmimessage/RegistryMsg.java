@@ -3,7 +3,7 @@ package rmimessage;
 /**
  * @author xi
  */
-public class RMIRegistryMsg extends RMImessage {
+public class RegistryMsg extends RMImessage {
 	public enum Type{
 		GetReg,GetStub,PutStub
 	};

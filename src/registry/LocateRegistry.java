@@ -3,7 +3,7 @@ package registry;
 import java.io.*;
 import java.net.*;
 
-import rmimessage.RMIRegistryMsg;
+import rmimessage.RegistryMsg;
 
 public class LocateRegistry {
 	public static Registry getRegistry(String host, int port) {
@@ -17,13 +17,13 @@ public class LocateRegistry {
 					sk.getInputStream());
 			
 			
-			RMIRegistryMsg msg=new RMIRegistryMsg();
+			RegistryMsg msg=new RegistryMsg();
 			
 			// ask.
 			out.writeObject(msg);
 
 			// gets answer.
-			msg=(RMIRegistryMsg)in.readObject();
+			msg=(RegistryMsg)in.readObject();
 			
 			/*
 			 * check response

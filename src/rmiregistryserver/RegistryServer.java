@@ -2,7 +2,7 @@ package rmiregistryserver;
 
 import java.net.*;
 
-import rmimessage.RMIRegistryMsg;
+import rmimessage.RegistryMsg;
 import rmimessage.RMImessage;
 import communication.*;
 
@@ -45,7 +45,7 @@ public class RegistryServer {
 		/*
 		 * get parsed message
 		 */
-		RMIRegistryMsg msg=null;
+		RegistryMsg msg=null;
 		
 		/*
 		 * handle
@@ -53,7 +53,7 @@ public class RegistryServer {
 		msgHandler(client,msg);
 	}
 	
-	void msgHandler(Socket client,RMIRegistryMsg msg){
+	void msgHandler(Socket client,RegistryMsg msg){
 		switch(msg.type){
 		case GetReg:
 			break;

@@ -13,7 +13,7 @@ import exception.MyRemoteException;
  * @author air
  *
  */
-public class Computation_Stub extends Remote_Stub implements Compute {
+public class Computation_stub extends Remote_Stub implements Compute {
 	
 	/* (non-Javadoc)
 	 * @see app1.Compute#computeFactorial(int)

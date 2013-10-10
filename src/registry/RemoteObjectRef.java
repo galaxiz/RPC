@@ -1,16 +1,18 @@
 package registry;
 
-public class RemoteObjectRef {
-	String IP_adr;
-	int Port;
-	int Obj_Key;
-	String Remote_Interface_Name;
+import java.net.URL;
 
-	public RemoteObjectRef(String ip, int port, int obj_key, String riname) {
-		IP_adr = ip;
-		Port = port;
-		Obj_Key = obj_key;
-		Remote_Interface_Name = riname;
+public class RemoteObjectRef {
+	String ip;
+	int port;
+	int objKey;
+	String interfaceName;
+	URL url;
+	Object st;
+
+	public RemoteObjectRef(URL u,Object stub){//String ip, int port, int obj_key, String riname) {
+		url=u;
+		st=stub;
 	}
 
 	// this method is important, since it is a stub creator.
@@ -37,5 +39,9 @@ public class RemoteObjectRef {
 		// another place.
 		// Here let it return null.
 		return null;
+	}
+	
+	Object stub(){
+		return st;
 	}
 }

@@ -3,10 +3,10 @@ package registry;
 import java.io.*;
 import java.net.Socket;
 
-import rmimessage.RMIRegistryMsg;
+import rmimessage.RegistryMsg;
 
 public class MsgLib {
-	public static boolean SendMsg(Socket socket,RMIRegistryMsg msg){
+	public static boolean SendMsg(Socket socket,RegistryMsg msg){
 		try{
 			ObjectOutputStream out=new ObjectOutputStream(
 					socket.getOutputStream());
@@ -21,12 +21,12 @@ public class MsgLib {
 		}
 	}
 	
-	public static RMIRegistryMsg RecvMsg(Socket socket){
+	public static RegistryMsg RecvMsg(Socket socket){
 		try{
 			ObjectInputStream in=new ObjectInputStream(
 					socket.getInputStream());
 			
-			RMIRegistryMsg msg=(RMIRegistryMsg)in.readObject();
+			RegistryMsg msg=(RegistryMsg)in.readObject();
 			
 			return msg;
 		}

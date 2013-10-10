@@ -4,16 +4,16 @@ import java.io.*;
 import java.net.*;
 
 import remoteinterface.Remote;
-import rmimessage.RMIRegistryMsg;
+import rmimessage.RegistryMsg;
 
 public class Registry {
 	String host;
-	int port;
+	int port;	
 
 	// ultra simple constructor.
 	public Registry(String ipAddr, int portNum) {
 		host = ipAddr;
-		port = portNum;
+		port = portNum;		
 	}
 
 	// returns the ROR (if found) or null (if else)
@@ -26,81 +26,62 @@ public class Registry {
 		System.out.println("socket made.");
 
 		// get TCP streams and wrap them.
-		RMIRegistryMsg msg=null;
-		/*
-		 * set service name
-		 */
+		RegistryMsg msg=new RegistryMsg(RegistryMsg.Type.GetStub,serviceName,null);
 		
 		MsgLib.SendMsg(sk, msg);
 
 		System.out.println("command and service name sent.");
 
 		// branch according to the answer.
-		msg=MsgLib.RecvMsg(sk);
+		msg=MsgLib.RecvMsg(sk);		
+
+		RemoteObjectRef rof=null;
+		Remote ro=null;
 		
-		RemoteObjectRef ro;
-
-		if (true){//res.equals("found")) {
-
+		if (msg.type==RegistryMsg.Type.OK){
 			System.out.println("it is found!.");
 
-			// receive ROR data, witout check.
-//			String ro_IPAdr = in.readLine();
-//
-//			System.out.println(ro_IPAdr);
-//
-//			int ro_PortNum = Integer.parseInt(in.readLine());
-//
-//			System.out.println(ro_PortNum);
-//
-//			int ro_ObjKey = Integer.parseInt(in.readLine());
-//
-//			System.out.println(ro_ObjKey);
-//
-//			String ro_InterfaceName = in.readLine();
-//
-//			System.out.println(ro_InterfaceName);
-//
-//			// make ROR.
-//			ro = new Remote(ro_IPAdr, ro_PortNum, ro_ObjKey,
-//					ro_InterfaceName);
+			rof=(RemoteObjectRef)msg.object;
+			
+			URL url=rof.url;
+						
+			URLClassLoader cl=new URLClassLoader(new URL[]{url});			
+
+			/*
+			 * need more consideration
+			 */			
+			
+			ro=(Remote)rof.stub();
 		} else {
 			System.out.println("it is not found!.");
-
-			ro = null;
 		}
 
 		// close the socket.
 		sk.close();
 
 		// return ROR.
-		return null;
+		return ro;
 	}
 
 	// rebind a ROR. ROR can be null. again no check, on this or whatever.
 	// I hate this but have no time.
-	public void rebind(String serviceName, RemoteObjectRef ror)
+	public boolean rebind(String serviceName, Remote ro)
 			throws IOException {
 		// open socket. same as before.
-		Socket soc = new Socket(host, port);
-
-		// get TCP streams and wrap them.
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				soc.getInputStream()));
-		PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-
-		// it is a rebind request, with a service name and ROR.
-		out.println("rebind");
-		out.println(serviceName);
-		out.println(ror.IP_adr);
-		out.println(ror.Port);
-		out.println(ror.Obj_Key);
-		out.println(ror.Remote_Interface_Name);
-
-		// it also gets an ack, but this is not used.
-		String ack = in.readLine();
-
-		// close the socket.
-		soc.close();
+		Socket sk = new Socket(host, port);
+		
+		RegistryMsg msg=new RegistryMsg(RegistryMsg.Type.PutStub, serviceName, ro);
+		MsgLib.SendMsg(sk, msg);
+		
+		msg=MsgLib.RecvMsg(sk);
+		
+		sk.close();
+		
+		if(msg.type!=RegistryMsg.Type.OK){
+			System.out.println("Rebind failed.");
+			return false;
+		}
+		
+		return true;
 	}
 }

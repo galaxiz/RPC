@@ -3,7 +3,7 @@ package registry;
 import java.io.*;
 import java.net.*;
 
-import rmimessage.RMIRegistryMsg;
+import rmimessage.RegistryMsg;
 
 public class LocateRegistry {
 	public static Registry getRegistry(String host, int port) {
@@ -15,20 +15,19 @@ public class LocateRegistry {
 					sk.getOutputStream());
 			ObjectInputStream in=new ObjectInputStream(
 					sk.getInputStream());
-			
-			
-			RMIRegistryMsg msg=new RMIRegistryMsg();
+						
+			RegistryMsg msg=new RegistryMsg(RegistryMsg.Type.GetReg,null,null);
 			
 			// ask.
 			out.writeObject(msg);
 
 			// gets answer.
-			msg=(RMIRegistryMsg)in.readObject();
+			msg=(RegistryMsg)in.readObject();
 			
 			/*
 			 * check response
 			 */
-			if (true) {
+			if (msg.type==RegistryMsg.Type.OK) {
 				return new Registry(host, port);
 			} else {
 				System.out.println("somebody is there but not a  registry!");

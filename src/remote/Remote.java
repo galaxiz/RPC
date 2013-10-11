@@ -1,4 +1,4 @@
-package remoteinterface;
+package remote;
 
 import java.io.*;
 

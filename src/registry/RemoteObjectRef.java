@@ -3,7 +3,7 @@ package registry;
 import java.io.Serializable;
 import java.net.URL;
 
-import remoteinterface.Remote_Stub;
+import remote.Remote_Stub;
 
 public class RemoteObjectRef implements Serializable{
 	String ip;

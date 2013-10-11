@@ -4,8 +4,8 @@ import java.net.*;
 
 import registry.MsgLib;
 import registry.RemoteObjectRef;
-import remoteinterface.Remote;
-import remoteinterface.Remote_Stub;
+import remote.Remote;
+import remote.Remote_Stub;
 import rmimessage.RegistryMsg;
 import rmimessage.Message;
 import communication.*;

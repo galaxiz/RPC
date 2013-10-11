@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import registry.Registry;
-import remoteinterface.Remote_Stub;
+import remote.Remote_Stub;
 
 /**
  * @author Shiwei Dong

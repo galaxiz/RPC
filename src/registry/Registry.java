@@ -3,8 +3,8 @@ package registry;
 import java.io.*;
 import java.net.*;
 
-import remoteinterface.Remote;
-import remoteinterface.Remote_Stub;
+import remote.Remote;
+import remote.Remote_Stub;
 import rmimessage.RegistryMsg;
 
 /**

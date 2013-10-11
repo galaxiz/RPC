@@ -22,7 +22,7 @@ import java.io.IOException;
 import registry.LocateRegistry;
 import registry.Registry;
 import registry.RemoteObjectRef;
-import remoteinterface.Remote;
+import remote.Remote;
 import exception.RemoteException;
 
 public class ZipCodeClient { 

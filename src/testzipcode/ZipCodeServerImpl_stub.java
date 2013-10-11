@@ -4,7 +4,7 @@
 package testzipcode;
 
 import exception.RemoteException;
-import remoteinterface.Remote_Stub;
+import remote.Remote_Stub;
 import rmimessage.InvocationMsg;
 import rmimessage.ReturnMSG;
 

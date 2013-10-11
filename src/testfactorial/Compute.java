@@ -2,7 +2,7 @@
 package testfactorial;
 
 import exception.RemoteException;
-import remoteinterface.Remote;
+import remote.Remote;
 
 
 /**

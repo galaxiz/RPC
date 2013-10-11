@@ -4,7 +4,7 @@
 package testzipcode;
 
 import exception.RemoteException;
-import remoteinterface.Remote;
+import remote.Remote;
 
 /**
  * @author air

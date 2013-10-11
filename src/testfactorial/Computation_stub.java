@@ -3,7 +3,7 @@
  */
 package testfactorial;
 
-import remoteinterface.Remote_Stub;
+import remote.Remote_Stub;
 import rmimessage.InvocationMsg;
 import rmimessage.ReturnMSG;
 import communication.ClientCM;

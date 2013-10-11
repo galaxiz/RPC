@@ -1,9 +1,7 @@
 package stubgenerator;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,19 +14,17 @@ import javax.tools.JavaFileObject;
 import javax.tools.SimpleJavaFileObject;
 import javax.tools.ToolProvider;
 import javax.tools.JavaCompiler.CompilationTask;
-import javax.tools.JavaFileObject.Kind;
-
-import rmimessage.InvocationMsg;
-import rmimessage.ReturnMSG;
-import exception.RemoteException;
 
 /**
  * 
  * @author xi
  * 
- *         Stub Generator
+ * Stub Generator:
  */
 public class StubGenerator {
+	/*
+	 * For primitive data types, return the name of wrapper class.
+	 */
 	public static String priName(String pri) {
 		switch (pri) {
 		case "byte":
@@ -51,21 +47,43 @@ public class StubGenerator {
 			return "";
 		}
 	}
+	
+	public static void usage(){
+		System.out.println("Usage:java stubgenerator.StubGenerator <Package.ClassName>");
+		System.exit(1);
+	}
 
+	/*
+	 * Input a .class file, generate a .stub class file. 
+	 */
 	public static void main(String[] args) throws ClassNotFoundException {
+		if(args.length!=1){
+			usage();
+		}		
+		
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<JavaFileObject>();
 
-		Class c = Class.forName("testfactorial.Computation");
+		Class c = Class.forName(args[0]);
 		Class[] ifs = c.getInterfaces();
 
 		StringWriter writer = new StringWriter();
 		PrintWriter out = new PrintWriter(writer);
+		
+		/*
+		 * generate source
+		 */
 		out.println(c.getPackage() + ";");
-		out.println("public class " + c.getSimpleName() + "_stub{");
+		out.println("import remoteinterface.Remote_Stub;");
+		out.println("import rmimessage.InvocationMsg;");
+		out.println("import rmimessage.ReturnMSG;");
+		out.println("import communication.ClientCM;");
+		out.println("import exception.RemoteException;");
+		out.print("public class " + c.getSimpleName() + "_stub extends Remote_Stub implements ");
 
 		ArrayList<String> methodNames = new ArrayList<String>();
 
+		boolean first=true;
 		for (Class itf : ifs) {
 			Class[] subInterfaces = itf.getInterfaces();
 			boolean remotable = false;
@@ -82,95 +100,102 @@ public class StubGenerator {
 				for (Method m : mtds) {
 					methodNames.add(m.getName());
 				}
+				
+				if(!first){
+					out.print(",");
+				}
+				
+				out.print(itf.getName());
+				
+				first=false;
 			}
 		}
+
+		out.println("{");
 
 		for (Method m : c.getMethods()) {
 			System.out.println(m.toString());
 
 			if (methodNames.contains(m.getName())) {
-				out.println(m.toGenericString() + "{");
+				StringBuilder arbr=new StringBuilder("");
+				arbr.append("(");
+				int i=0;
+				for (Class t : m.getParameterTypes()) {
+					if (i!=0) {
+						arbr.append(",");
+					}
+					arbr.append(t.getName()+" ");
+					arbr.append((char)('a'+i));
+					i++;
+				}
+				arbr.append(")");
 				
-				m.toGenericString().replaceAll("\(.*\)", replacement
+				String newState=m.toString().replaceAll("\\(.*\\)",arbr.toString());
+				newState=newState.replaceAll("( )([^ ]*\\.)([^\\.]*\\()","$1$3");
+				out.println(newState+"{");
 				
 				out.print("InvocationMsg msg = new InvocationMsg(\""
 						+ c.getName() + "\",\"" + m.getName()
 						+ "\", new Class[] {");
-				boolean first = true;
+				first = true;
 				for (Class t : m.getParameterTypes()) {
 					if (!first) {
 						out.print(",");
 					}
 					if (t.isPrimitive()) {
-						out.print(priName(t.getName()) + ".Type");
+						out.print(priName(t.getName()) + ".TYPE");
 					} else {
 						out.print(t.getName() + ".class");
 					}
 					first = false;
 				}
-				out.println("},new Object[] {" + "});");
+				out.print("},new Object[] {");
+				i=0;
+				for (Class t : m.getParameterTypes()) {
+					if (i!=0) {
+						out.print(",");
+					}
+					out.print((char)('a'+i));
+					i++;
+				}
+				out.println("});");
 				out.println("clientCM.sendMessage(msg);");
 				out.println("ReturnMSG rtmsg = (ReturnMSG) clientCM.receiveMessage();");
-				out.println("return (" + m.getReturnType().toString()
-						+ ")rtmsg.getReturnObject();");
+				
+				if (!m.getReturnType().toString().equals("void")) {
+					out.print("return (");
+					if (m.getReturnType().isPrimitive()) {
+						out.print(priName(m.getReturnType().getName()));
+					} else {
+						out.print(m.getReturnType().getName());
+					}
+					out.println(")rtmsg.getReturnObject();");
+				}
 				out.println("}");
 			}
 		}
-
-		Method[] ms = ifs[0].getDeclaredMethods();
-
-		// public int computeSum(int i, int j) throws RemoteException {
-		// InvocationMsg msg = new InvocationMsg("testfactorial.Computation",
-		// "computeSum", new Class[] { Integer.TYPE, Integer.TYPE },
-		// new Object[] { i, j });
-		// clientCM.sendMessage(msg);
-		// ReturnMSG rtmsg = (ReturnMSG) clientCM.receiveMessage();
-		// return (Integer)rtmsg.getReturnObject();
-		// }
-
-		out.println("  public static void main(String args[]) {");
-		out.println("    System.out.println(\"This is in another java file\");");
-		out.println("  }");
+		
 		out.println("}");
 		out.close();
-		JavaFileObject file = new JavaSourceFromString("HelloWorld",
+		
+		JavaFileObject fileObject = new JavaSourceFromString(c.getSimpleName() + "_stub",
 				writer.toString());
-
-		Iterable<? extends JavaFileObject> compilationUnits = Arrays
-				.asList(file);
+		Iterable<? extends JavaFileObject> cu = Arrays
+				.asList(fileObject);
+		
 		CompilationTask task = compiler.getTask(null, null, diagnostics, null,
-				null, compilationUnits);
-
+				null, cu);		
+		
+		/*
+		 * compiling
+		 */
 		boolean success = task.call();
-		for (Diagnostic diagnostic : diagnostics.getDiagnostics()) {
-			System.out.println(diagnostic.getCode());
-			System.out.println(diagnostic.getKind());
-			System.out.println(diagnostic.getPosition());
-			System.out.println(diagnostic.getStartPosition());
-			System.out.println(diagnostic.getEndPosition());
-			System.out.println(diagnostic.getSource());
-			System.out.println(diagnostic.getMessage(null));
+		
+		for (Diagnostic d : diagnostics.getDiagnostics()) {
+			System.out.println(d.getCode() + " " + d.getKind() + " " + d.getPosition()+ " " + d.getMessage(null));
 		}
 
-		System.out.println("Success: " + success);
-
-		if (success) {
-			try {
-				Class.forName("HelloWorld")
-						.getDeclaredMethod("main",
-								new Class[] { String[].class })
-						.invoke(null, new Object[] { null });
-			} catch (ClassNotFoundException e) {
-				System.err.println("Class not found: " + e);
-			} catch (NoSuchMethodException e) {
-				System.err.println("No such method: " + e);
-			} catch (IllegalAccessException e) {
-				System.err.println("Illegal access: " + e);
-			} catch (InvocationTargetException e) {
-				System.err.println("Invocation target: " + e);
-			}
-		}
-
+		System.out.println("Success: " + success);		
 	}
 }
 
@@ -183,7 +208,6 @@ class JavaSourceFromString extends SimpleJavaFileObject {
 		this.code = code;
 	}
 
-	@Override
 	public CharSequence getCharContent(boolean ignoreEncodingErrors) {
 		return code;
 	}

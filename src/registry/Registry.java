@@ -7,6 +7,12 @@ import remoteinterface.Remote;
 import remoteinterface.Remote_Stub;
 import rmimessage.RegistryMsg;
 
+/**
+ * 
+ * @author xi
+ *
+ * Registry facility used by both client and server, same function as java.rmi.registry
+ */
 public class Registry {
 	String host;
 	int port;	

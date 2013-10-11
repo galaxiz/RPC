@@ -11,7 +11,7 @@ import exception.RemoteException;
  */
 public class Computation implements Compute {
 
-	public int computeFactorial(int i) {
+	public int computeFactorial(int i) throws RemoteException{
 		if (i <= 0)
 			return 0;
 		if (i == 1)

@@ -13,7 +13,7 @@ public class RemoteObjectRef implements Serializable{
 	URL url;
 	Remote_Stub st;
 
-	public RemoteObjectRef(URL u,Remote_Stub stub){//String ip, int port, int obj_key, String riname) {
+	public RemoteObjectRef(URL u,Remote_Stub stub){
 		url=u;
 		st=stub;
 	}

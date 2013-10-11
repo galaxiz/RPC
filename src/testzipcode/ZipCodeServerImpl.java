@@ -3,6 +3,8 @@
  */
 package testzipcode;
 
+import exception.RemoteException;
+
 //in implementation, you do not have to extend this as in Java RMI. 
 //in your design, however, you can do so.
 //it is assumed that this is not directly called but as in:
@@ -16,19 +18,19 @@ public class ZipCodeServerImpl implements ZipCodeServer {
 	ZipCodeList l;
 
 	// this is a constructor.
-	public ZipCodeServerImpl() {
+	public ZipCodeServerImpl(){
 		l = null;
 	}
 
 	// when this is called, marshalled data
 	// should be sent to this remote object,
 	// and reconstructed.
-	public void initialise(ZipCodeList newlist) {
+	public void initialise(ZipCodeList newlist)  throws RemoteException {
 		l = newlist;
 	}
 
 	// basic function: gets a city name, returns the zip code.
-	public String find(String request) {
+	public String find(String request)  throws RemoteException {
 		// search the list.
 		ZipCodeList temp = l;
 		while (temp != null && !temp.city.equals(request))
@@ -43,12 +45,12 @@ public class ZipCodeServerImpl implements ZipCodeServer {
 
 	// this very short method should send the marshalled
 	// whole list to the local site.
-	public ZipCodeList findAll() {
+	public ZipCodeList findAll()  throws RemoteException {
 		return l;
 	}
 
 	// this method does printing in the remote site, not locally.
-	public void printAll() {
+	public void printAll()  throws RemoteException {
 		ZipCodeList temp = l;
 		while (temp != null) {
 			System.out.println("city: " + temp.city + ", " + "code: "
